@@ -38,5 +38,55 @@
  *   // => { selected: [{ color: "golden", length: 5, cost: 250 }], totalLength: 5, totalCost: 250 }
  */
 export function diwaliLightsPlan(lightStrings, budget) {
+
   // Your code here
+  const color_rates={
+    "golden":50,
+    "multicolor": 40,
+    "white":30,
+  }
+  const temp_list=[]
+  let totalCost=0;
+  let colorCost=0;
+  let totalLength=0;
+
+  if(!Array.isArray(lightStrings) || budget <=0 || typeof(budget) !== "number"){
+    return {
+      selected:[],totalLength:0,totalCost:0
+    }
+  }
+  for(let i of lightStrings){
+    if(i.color==="golden"){
+      colorCost=i.length*color_rates[i.color]
+      totalLength=totalLength+i.length
+    }
+    else if(i.color==="multicolor"){
+      colorCost=i.length*color_rates[i.color]
+      console.log(totalCost)
+      totalLength=totalLength+i.length
+
+    }
+    else if(i.color === "white"){
+      colorCost=i.length*color_rates[i.color]
+      totalLength=totalLength+i.length
+
+    }
+    else{
+      colorCost=+i.length*35
+      totalLength=totalLength+i.length
+    }
+    
+    const new_Obj={...i,cost:colorCost}
+    totalCost+=colorCost
+    temp_list.push(new_Obj)
+  }
+
+  let i=0;
+  while(totalCost > budget){
+    const remove_item=temp_list.pop()
+    totalCost=totalCost-remove_item.length*color_rates[remove_item.color]
+    totalLength=totalLength-remove_item.length
+   }
+  return { selected: temp_list, totalLength, totalCost }
+
 }
